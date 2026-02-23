@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask Jay Kim · GTM Recruiter, APAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiempos+Headline:wght@400;600&family=Söhne:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --surface3: #222222;
+    --border: #2a2a2a;
+    --coral: #d4622a;
+    --coral-light: #e8794a;
+    --coral-dim: rgba(212,98,42,0.15);
+    --text: #f5f0eb;
+    --text-muted: #888;
+    --text-dim: #555;
+    --user-bubble: #1e1e1e;
+    --ai-bubble: #161616;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+    gap: 16px;
+  }
+
+  .header-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--coral) 0%, #8b2500 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .header-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .header-role {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 1px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .header-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--coral);
+    background: var(--coral-dim);
+    border: 1px solid rgba(212,98,42,0.3);
+    padding: 5px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .pulse {
+    width: 6px;
+    height: 6px;
+    background: var(--coral);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Suggested prompts ── */
+  .prompts-bar {
+    padding: 12px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+
+  .prompt-chip {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .prompt-chip:hover {
+    color: var(--coral-light);
+    border-color: rgba(212,98,42,0.4);
+    background: var(--coral-dim);
+  }
+
+  /* ── Chat area ── */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Welcome message */
+  .welcome {
+    text-align: center;
+    padding: 32px 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .welcome-headline {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .welcome-headline em {
+    color: var(--coral);
+    font-style: italic;
+  }
+
+  .welcome-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 420px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  .welcome-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--coral);
+    margin: 16px auto;
+    border-radius: 1px;
+  }
+
+  /* Messages */
+  .message {
+    display: flex;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.4s ease forwards;
+    max-width: 760px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.user {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+  }
+
+  .msg-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .msg-icon.jay {
+    background: linear-gradient(135deg, var(--coral) 0%, #8b2500 100%);
+    color: white;
+    font-family: var(--font-display);
+  }
+
+  .msg-icon.user-icon {
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .bubble {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    max-width: calc(100% - 50px);
+  }
+
+  .message.jay .bubble {
+    background: var(--ai-bubble);
+    border: 1px solid var(--border);
+    border-top-left-radius: 2px;
+    color: var(--text);
+  }
+
+  .message.user .bubble {
+    background: var(--coral-dim);
+    border: 1px solid rgba(212,98,42,0.25);
+    border-top-right-radius: 2px;
+    color: var(--text);
+  }
+
+  .bubble strong {
+    color: var(--coral-light);
+    font-weight: 500;
+  }
+
+  .bubble em {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .bubble .stat {
+    display: inline-block;
+    background: var(--coral-dim);
+    border: 1px solid rgba(212,98,42,0.3);
+    color: var(--coral-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 2px;
+  }
+
+  /* Typing indicator */
+  .typing {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.3s ease forwards;
+  }
+
+  .typing-dots {
+    display: flex;
+    gap: 4px;
+    padding: 14px 18px;
+    background: var(--ai-bubble);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    border-top-left-radius: 2px;
+  }
+
+  .typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    animation: dotBounce 1.2s infinite;
+  }
+
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  /* ── Input area ── */
+  .input-area {
+    padding: 16px 28px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
+  }
+
+  .input-row:focus-within {
+    border-color: rgba(212,98,42,0.5);
+  }
+
+  textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    line-height: 1.5;
+    resize: none;
+    max-height: 120px;
+    min-height: 22px;
+    height: 22px;
+  }
+
+  textarea::placeholder { color: var(--text-dim); }
+
+  .send-btn {
+    background: var(--coral);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .send-btn:hover { background: var(--coral-light); }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { background: var(--surface3); cursor: not-allowed; }
+
+  .send-btn svg { width: 15px; height: 15px; }
+
+  .input-hint {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Scrollbar ── */
+  .chat-area { scroll-behavior: smooth; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    header { padding: 14px 16px; }
+    .prompts-bar { padding: 10px 16px; }
+    .chat-area { padding: 16px; }
+    .input-area { padding: 12px 16px 16px; }
+    .welcome-headline { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-identity">
+    <div class="avatar">JK</div>
+    <div>
+      <div class="header-name">Whyi Jun (Jay) Kim</div>
+      <div class="header-role">Senior GTM Recruiter · Japan & Korea · AI-Enabled Hiring</div>
+    </div>
+  </div>
+  <div class="header-badge">
+    <div class="pulse"></div>
+    Powered by Claude
+  </div>
+</header>
+
+<div class="prompts-bar" id="prompts">
+  <span class="prompt-chip" onclick="sendPrompt(this)">Tell me about Jay's experience</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">What makes Jay unique as a recruiter?</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">How does Jay use AI in recruiting?</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">What are Jay's biggest achievements?</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">Why does Jay want to join Anthropic?</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">What are Jay's weaknesses?</span>
+  <span class="prompt-chip" onclick="sendPrompt(this)">What's Jay's 30-60-90 day plan?</span>
+</div>
+
+<div class="chat-area" id="chatArea">
+  <div class="welcome">
+    <div class="welcome-headline">Ask me anything about <em>Jay.</em></div>
+    <div class="welcome-divider"></div>
+    <div class="welcome-sub">This AI is trained on Jay Kim's resume and presentation. Ask about his experience, skills, projects, or why he's the right fit for Anthropic.</div>
+  </div>
+</div>
+
+<div class="input-area">
+  <div class="input-row">
+    <textarea id="userInput" placeholder="Ask a question about Jay..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+  <div class="input-hint">Interviewer-mode Q&A · Built by Jay to demonstrate AI-enabled hiring</div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are an AI assistant representing Whyi Jun (Jay) Kim, a Senior GTM Recruiter applying for the GTM Recruiter, APAC role at Anthropic. You answer questions from interviewers about Jay's background, experience, skills, and fit for the role. Be confident, precise, and personable — speak as if you are Jay's professional advocate who knows everything about him. Keep answers concise but substantive (2-5 sentences typically, unless the question warrants more detail).
+
+Here is everything you know about Jay Kim:
+
+== IDENTITY ==
+- Full name: Whyi Jun (Jay) Kim
+- Location: Tokyo, Japan
+- Email: kim.whyijun@gmail.com | Phone: 090-9838-9123
+- Languages: Japanese (N1 certified), Korean (native), English (fluent)
+- 9+ years of GTM recruiting experience across Japan and Korea
+
+== CURRENT ROLE ==
+- Senior Employee Recruiter (GTM & G&A) at Salesforce Japan, Sep 2021 – Present
+- Hiring scope: Account Executives, Solution Engineers, Partner Alliance Managers, Product Marketing Managers, Technical Architects, Tech Support, Legal, Operations — Japan & Korea
+- FY26 highlights: 102.5% annual hiring target achieved (despite 2.5 months parental/childcare leave); ranked #2 recruiter in Japan/Korea in Q2 2025 with 19 hires (team average: 10.1)
+- Delivered 92%+ on-time hiring fulfillment in 2024, 116% of annual targets in 2025
+
+== PREVIOUS EXPERIENCE ==
+- RGF Professional Recruitment Japan, Game Industry Consultant (Apr 2017 – Sep 2021): Ranked Top 5 Billers (96th percentile) Q1 2021; built custom Python/JavaScript outreach automation reducing team outreach time by 30% and daily overtime by 1.5 hours
+- Dentsu Isobar, Digital Marketer (Apr 2015 – Nov 2015): Social media strategy and analytics for enterprise clients
+
+== EDUCATION ==
+- Waseda University, B.A. International Liberal Studies (2008–2014), Tokyo. Top 10% Dean's List 2009, 2013, 2014. Founding member of TEDxWasedaU.
+- American School of Kuwait, High School (graduated 2008)
+
+== CERTIFICATIONS ==
+- AI for Business – Wharton Online (Apr 2024)
+- AI Applications in People Management – Wharton Online (Jun 2024)
+- SHRM Senior Certified Professional (SHRM-SCP) – Dec 2024, expires Jun 2028
+- Salesforce Trailhead All Star Ranger – Sep 2023
+- Japanese Language Proficiency Test N1 – Jul 2015
+
+== THREE KEY STRENGTHS ==
+
+1. HIGH RAMP-UP SPEED
+- Ranked #2 recruiter JP/Korea Q2 2025, 19 hires vs. team avg 10.1
+- 102.5% annual target despite 2.5 month parental leave
+- First year of AE hiring at Salesforce Japan left lasting impact
+
+2. OPERATIONS & SYSTEMS BUILDER
+Projects include:
+- Slack Hiring Channel & Candidate Sharing Workflow: designed from zero, built tagging taxonomy and sharing protocols
+- AI Compliance Bridge (SF HQ ↔ Japan): regional lead translating HQ AI governance for Japan, ongoing
+- Automated Competitor Hiring Newsletter: solo-built automated daily email digest tracking 20+ competitor companies (SAP, Oracle, Microsoft, OpenAI, TIBCO, etc.) in Japan/Korea SaaS market. Uses Google Workspace Studio trigger → Gemini AI research → Gmail automation → Google Apps Script auto-forward with duplicate detection. Built in zero budget, runs every morning.
+- AI Enablement Sessions for Recruiting Team: facilitated quarterly sessions driving 2.5× AI tool adoption
+- Korea Referral Fast-Track Program: +12% first-round interview rate, −5 days time-to-hire
+- AI-Powered Resume-to-Role Correlation Analysis: used AI to analyze past employee resumes vs. performance data to find high-performer indicators; updated hiring strategy accordingly
+
+3. DATA-DRIVEN ANALYTICAL HIRING
+- Maintains Tableau dashboards for funnel health and hiring forecasts
+- Worked with AI council for approval to use AI on sensitive resume/performance data
+- Found correlated indicators between resumes and high performer patterns, updated screening criteria
+- Data-based Hiring Manager communications; analytical advisor to the recruiting team
+
+== WHY ANTHROPIC ==
+Three reasons:
+1. Mission resonance: enterprise-level AI with real-world impact. Spent 2 years immersing in AI (Wharton certs, daily AI workflow deployment). Anthropic's business model and market potential is deeply exciting.
+2. Founding APAC role: building from near-zero is exactly what Jay wants. Tasted this at Salesforce and wants to do it at higher stakes.
+3. The people: researched Anthropic staff on LinkedIn; personal connections and reputation excited him to apply.
+
+== SELF-AWARENESS / WEAKNESSES ==
+Jay openly acknowledges three specific weaknesses:
+1. Communication Bridging (HM alignment): early in career prioritized speed over stakeholder communication. Fix: now builds explicit check-in cadences and pre-communicates on HM preferred style.
+2. Prioritized Result Over Process (AE offer incident): extended offer without knowing Draw Amount requirement. Candidate had to readjust contract. Root cause: didn't know what he didn't know. Fix: now always does full process walkthrough with subject expert before acting.
+3. Analytical Machine > Motivational Leader: more energized by data/systems than pep talks. Fix: actively solicits colleague feedback quarterly, balancing data mindset with what motivates others.
+
+== HONEST CHALLENGES FOR THIS ROLE ==
+1. Enterprise → Early-Stage pace shift: Salesforce is large and structured; Anthropic is faster and more ambiguous. Jay navigated this within Salesforce by operating in "startup mode" for new teams. He embraces Eisenhower Matrix and work-life integration.
+2. No prior AI company recruiting: hasn't recruited for an AI-native company before. Mitigated by daily AI tool use, Wharton AI certs, and deep belief in Anthropic's mission. Will start with beginner's mindset.
+3. HQ ↔ APAC alignment complexity: US HQ + new APAC office requires intentional bridging. Jay plans to align global standards, share Japan/Korea realities with data, and be intentional about communication cadence and trust-building across time zones.
+
+== 30-60-90 DAY PLAN ==
+Day 1-30 (Absorb, Listen, Build Foundation):
+- Connect with hiring managers and key stakeholders
+- Deep-dive Anthropic culture, mission & product
+- Map open GTM roles and ideal profiles per function
+- Understand HQ-APAC collaboration & hiring processes
+- Master systems and tools used by recruiting
+
+Day 31-60 (Build & Source):
+- Screen and deliver talent to hiring managers
+- Establish agency partnerships and candidate pipelines
+- For low-pipeline critical roles, create localized sourcing playbooks per GTM function
+- Launch active searches, build pipelines
+- Contribute to APAC recruiting infrastructure and process documentation
+
+Day 61-90 (Deliver & Optimize):
+- Multiple hires in process or closed
+- Hiring manager relationships firmly established
+- Initial reporting & funnel metrics live for leadership
+- Propose improvements to global ↔ local alignment
+
+== HOW JAY WORKS ==
+Weekly calendar:
+- Mon-Fri 8-11am: Sourcing, emails, admin
+- 11am-5:30pm: Interviews, stakeholder meetings, debriefs, hiring reviews
+- Wed: occasional unexpected child duty (he owns it transparently)
+- 5:30-7pm: Wind-down, childcare
+- 7pm-1am: Deep work, candidate comms, automation, research (varies)
+- Sat/Sun: Family time + catch-up work
+- Note: Jay has childcare responsibilities and is transparent about them. He brings full professional energy outside standard hours.
+
+== TOOLS JAY USES ==
+Workday, LinkedIn Recruiter, Beamery, Slack Workflows, Tableau, Python, JavaScript, Google Apps Script, Google Workspace Studio, Gemini, Claude/Anthropic, Kling AI, ElevenLabs, Suno, various AI productivity tools
+
+== TECH PHILOSOPHY ==
+"Cockpit rule" for AI: use AI as a co-pilot to maximize efficiency while maintaining human judgment on critical decisions. He prompt-engineers structured prompts (role + search strategy + filtering lists in XML-style format) rather than just casually prompting.
+
+Answer all questions helpfully, drawing from this knowledge base. If asked something not covered here, say you don't have that specific detail but offer what's most relevant. Always be confident and positive about Jay's qualifications.`;
+
+let isLoading = false;
+const chatArea = document.getElementById('chatArea');
+const input = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+
+function autoResize(el) {
+  el.style.height = '22px';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function sendPrompt(chip) {
+  input.value = chip.textContent;
+  sendMessage();
+}
+
+function appendMessage(role, text) {
+  const msg = document.createElement('div');
+  msg.className = `message ${role === 'assistant' ? 'jay' : 'user'}`;
+
+  const icon = document.createElement('div');
+  icon.className = `msg-icon ${role === 'assistant' ? 'jay' : 'user-icon'}`;
+  icon.textContent = role === 'assistant' ? 'JK' : 'Q';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = formatText(text);
+
+  msg.appendChild(icon);
+  msg.appendChild(bubble);
+  chatArea.appendChild(msg);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  return msg;
+}
+
+function formatText(text) {
+  // Bold **text**
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Stats like numbers with % or #
+  text = text.replace(/\b(\d+\.?\d*%|\#\d+|\d+\+)\b/g, '<span class="stat">$1</span>');
+  // Line breaks
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
+function showTyping() {
+  const el = document.createElement('div');
+  el.className = 'typing';
+  el.id = 'typingIndicator';
+  el.innerHTML = `
+    <div class="msg-icon jay">JK</div>
+    <div class="typing-dots">
+      <span></span><span></span><span></span>
+    </div>`;
+  chatArea.appendChild(el);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+const conversationHistory = [];
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  isLoading = true;
+  sendBtn.disabled = true;
+  input.value = '';
+  input.style.height = '22px';
+
+  // Hide welcome if first message
+  const welcome = chatArea.querySelector('.welcome');
+  if (welcome) welcome.style.display = 'none';
+
+  appendMessage('user', text);
+  conversationHistory.push({ role: 'user', content: text });
+
+  showTyping();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    hideTyping();
+
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || "I couldn't retrieve that information. Please try again.";
+
+    conversationHistory.push({ role: 'assistant', content: reply });
+    appendMessage('assistant', reply);
+
+  } catch (err) {
+    hideTyping();
+    appendMessage('assistant', `Something went wrong fetching the response. Please try again. *(${err.message})*`);
+  }
+
+  isLoading = false;
+  sendBtn.disabled = false;
+  input.focus();
+}
+</script>
+</body>
+</html>
